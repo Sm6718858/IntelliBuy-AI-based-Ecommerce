@@ -1,0 +1,60 @@
+@import "tailwindcss";
+*:focus {
+  outline: none !important;
+}
+header NavLink:focus, 
+header button:focus {
+  text-decoration: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+html {
+  scroll-behavior: smooth;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.linkStyle{
+  text-decoration: none;
+  list-style: none;
+  border: none;
+}
+.braintree-dropin-wrapper {
+  min-height: 300px;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer utilities {
+  .animate-fade-in-down {
+    animation: fadeInDown 0.5s ease-in-out both;
+  }
+
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@keyframes marquee {
+    0% { transform: translateX(100%) }
+    100% { transform: translateX(-100%) }
+  }
+  .animate-marquee {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 15s linear infinite;
+  }
+
+
