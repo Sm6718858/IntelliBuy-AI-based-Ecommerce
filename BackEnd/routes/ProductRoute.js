@@ -33,5 +33,4 @@ router.get("/related-product/:pid/:cid", realtedProductController);
 router.get("/product-category/:slug", productCategoryController);
 
 router.post("/review/:productId", requireSignIn, reviewProduct);
-
 export default router;
