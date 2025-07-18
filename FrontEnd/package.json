@@ -1,0 +1,46 @@
+{
+  "name": "e-commerce",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@tailwindcss/cli": "^4.1.7",
+    "@tailwindcss/vite": "^4.1.7",
+    "antd": "^5.26.1",
+    "axios": "^1.9.0",
+    "bootstrap": "^5.3.6",
+    "braintree-web-drop-in-react": "^1.2.1",
+    "dotenv": "^16.5.0",
+    "framer-motion": "^12.20.5",
+    "lucide-react": "^0.525.0",
+    "mdb-react-ui-kit": "^9.0.0",
+    "moment": "^2.30.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-helmet": "^6.1.0",
+    "react-hot-toast": "^2.5.2",
+    "react-icons": "^5.5.0",
+    "react-rating-stars-component": "^2.2.0",
+    "react-router-dom": "^7.6.2",
+    "tailwindcss": "^4.1.7",
+    "toast": "^0.5.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react-swc": "^3.8.0",
+    "eslint": "^9.22.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "vite": "^6.3.1"
+  }
+}
