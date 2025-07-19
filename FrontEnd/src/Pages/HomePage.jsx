@@ -142,60 +142,75 @@ const HomePage = () => {
       </section>
       <br /><br />
 
-      <div className={`fixed inset-0 z-50 transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}>
-        <div
-          className={`absolute inset-0 bg-black transition-opacity duration-300 ${isMenuOpen ? "opacity-40" : "opacity-0"}`}
-          onClick={() => setIsMenuOpen(false)}
-        />
-        <div className={`absolute top-0 right-0 bg-white w-80 max-w-[90%] h-full shadow-2xl rounded-l-3xl p-6 transform transition-transform duration-500 ease-in-out ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
-          <div className="flex justify-between items-center mb-6 border-b pb-3">
-            <h2 className="text-xl font-bold text-indigo-700">Filter Products</h2>
-            <button onClick={() => setIsMenuOpen(false)} className="text-gray-500 hover:text-red-500 text-2xl font-bold">✕</button>
-          </div>
-          <div className="mb-8">
-            <h3 className="text-base font-semibold text-indigo-700 mb-3">Categories</h3>
-            <div className="grid grid-cols-2 gap-3">
-              {categories?.map((c) => (
-                <div key={c._id} className="flex items-center">
-                  <Checkbox onChange={(e) => handleFilter(e.target.checked, c._id)} className="filter-checkbox">
-                    <span className="text-gray-700">{c.name}</span>
-                  </Checkbox>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="mb-8">
-            <h3 className="text-base font-semibold text-indigo-700 mb-3">Price Range</h3>
-            <Radio.Group onChange={(e) => setRadio(e.target.value)} className="flex flex-col gap-3">
-              {Prices?.map((p) => (
-                <Radio key={p._id} value={p.array}>
-                  <span className="text-gray-700">{p.name}</span>
-                </Radio>
-              ))}
-            </Radio.Group>
-          </div>
-          <div className="flex flex-col gap-3 mt-8">
-            <button
-              style={{ borderRadius: "17px" }}
-              onClick={() => {
-                setChecked([]);
-                setRadio([]);
-                setIsMenuOpen(false);
-                toast.success("Filters reset!");
-              }}
-              className="w-full py-2 bg-gradient-to-r from-pink-500 to-pink-600 text-white font-medium rounded-xl hover:scale-[1.02] transition-all"
-            >
-              RESET FILTERS
-            </button>
-            <button
-              onClick={() => setIsMenuOpen(false)}
-              className="w-full py-2 border border-indigo-600 text-indigo-600 font-medium rounded-xl hover:bg-indigo-50 transition-all"
-            >
-              APPLY FILTERS
-            </button>
-          </div>
-        </div>
+     <div className={`fixed inset-0 z-50 transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}>
+  <div
+    className={`absolute inset-0 bg-black transition-opacity duration-300 ${isMenuOpen ? "opacity-40" : "opacity-0"}`}
+    onClick={() => setIsMenuOpen(false)}
+  />
+  <div className={`absolute top-0 right-0 bg-white w-full max-w-sm min-h-full shadow-xl rounded-l-3xl p-6 transform transition-transform duration-500 ease-in-out ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
+    <div className="flex justify-between items-center border-b pb-2 mb-4">
+      <h2 className="text-xl font-bold text-indigo-700 mx-4 mt-3">Filter Products</h2>
+      <button onClick={() => setIsMenuOpen(false)} className="text-gray-500 hover:text-red-500 text-2xl font-bold">
+        ✕
+      </button>
+    </div>
+
+    {/* Category Filters */}
+    <div className="mb-8">
+      <h3 className="text-base font-semibold text-indigo-700 mb-3 mx-2">Categories</h3>
+      <div className="grid grid-cols-2 gap-3">
+        {categories?.map((c) => (
+          <label key={c._id} className="flex items-center space-x-2">
+            <Checkbox
+              onChange={(e) => handleFilter(e.target.checked, c._id)}
+              className="accent-indigo-600"
+            />
+            <span className="text-gray-700 text-sm">{c.name}</span>
+          </label>
+        ))}
       </div>
+    </div>
+
+    {/* Price Filters */}
+    <div className="mb-8">
+      <h3 className="text-base font-semibold text-indigo-700 mb-3 mx-2">Price Range</h3>
+      <Radio.Group
+        onChange={(e) => setRadio(e.target.value)}
+        className="flex flex-col space-y-3"
+      >
+        {Prices?.map((p) => (
+          <Radio key={p._id} value={p.array} className="text-sm text-gray-700">
+            {p.name}
+          </Radio>
+        ))}
+      </Radio.Group>
+    </div>
+
+    {/* Filter Buttons */}
+    <br />
+    <div className="mt-10 flex flex-col gap-4">
+      <button
+      style={{borderRadius:'10px'}}
+        onClick={() => {
+          setChecked([]);
+          setRadio([]);
+          setIsMenuOpen(false);
+          toast.success("Filters reset!");
+        }}
+        className="w-full py-2 bg-gradient-to-r from-red-400 to-pink-500 text-white font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-transform"
+      >
+        RESET FILTERS
+      </button>
+      <button
+        style={{borderRadius:'10px'}}
+        onClick={() => setIsMenuOpen(false)}
+        className="w-full py-2 border border-indigo-600 text-indigo-600 font-semibold rounded-xl hover:bg-indigo-50 transition"
+      >
+        APPLY FILTERS
+      </button>
+    </div>
+  </div>
+</div>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
         <aside className="hidden md:block md:col-span-1 bg-[#F3E2E5] rounded-xl shadow-xl p-6 sticky top-5 h-fit">

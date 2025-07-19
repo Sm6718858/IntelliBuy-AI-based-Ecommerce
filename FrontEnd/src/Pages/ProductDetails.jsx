@@ -33,9 +33,9 @@ const ProductDetails = () => {
           );
           setRelatedProducts(related?.data?.products || []);
         }
-        setLoading(false);
       } catch (error) {
         console.error("Failed to load product:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -43,33 +43,27 @@ const ProductDetails = () => {
     loadProductDetails();
   }, [params.slug]);
 
-  const StarRating = ({ value, onChange, editable }) => (
+  const StarRating = ({ value, onChange, editable, size = 20 }) => (
     <ReactStars
       count={5}
       value={value}
       onChange={onChange}
-      size={20}
+      size={size}
       activeColor="#fb4f14"
       isHalf={false}
-      emptyIcon={<i className="far fa-star" />}
-      filledIcon={<i className="fa fa-star" />}
       edit={editable}
     />
   );
 
   const submitReview = async () => {
-    if (rating === 0) {
-      toast.error("Please select a rating");
-      return;
-    }
-    if (!comment.trim()) {
-      toast.error("Please write a review");
+    if (rating === 0 || !comment.trim()) {
+      toast.error("Please fill out all fields.");
       return;
     }
 
     try {
       setSubmittingReview(true);
-      const auth = JSON.parse(localStorage.getItem("auth")); 
+      const auth = JSON.parse(localStorage.getItem("auth"));
       const token = auth?.token;
       if (!token) {
         toast.error("You must be logged in to submit a review");
@@ -79,15 +73,15 @@ const ProductDetails = () => {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/review/${product._id}`,
         { rating, comment },
-        { headers: { Authorization: `Bearer ${token}` } } 
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      
+
       toast.success("Review submitted!");
       setRating(0);
       setComment("");
       setProduct(data.product);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to submit review");
+      toast.error(error.response?.data?.message || "Submission failed.");
     } finally {
       setSubmittingReview(false);
     }
@@ -97,181 +91,277 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mx-auto"></div>
-          <h4 className="mt-4 text-lg font-medium text-gray-700">Loading product details...</h4>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 text-lg font-medium">Loading product details...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 to-purple-50">
-      <main className="flex-grow container mx-auto px-4 py-8">
-        {/* Product Details Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <img
-              src={`${import.meta.env.VITE_API_BASE_URL}/api/product-photo/${product._id}`}
-              alt={product.name}
-              className="w-full h-96 object-contain p-4"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "https://via.placeholder.com/500x500?text=Product+Image";
-              }}
-            />
-          </div>
-          
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-3xl font-bold text-indigo-700 mb-4">🛍️ {product.name}</h2>
-            <div className="flex items-center mb-4">
-              <StarRating value={product.averageRating || 0} edit={false} />
-              <span className="ml-2 text-gray-600">{product.averageRating?.toFixed(1) || 'No'} reviews</span>
-            </div>
-            
-            <p className="text-gray-700 mb-6">{product.description}</p>
-            
-            <div className="mb-6">
-              <span className="text-2xl font-bold text-green-600">₹{product.price}</span>
-              {product.price > 1000 && (
-                <span className="ml-2 text-sm text-gray-500">+ Free Shipping</span>
-              )}
-            </div>
-            
-            <div className="mb-6">
-              <span className="block text-gray-600 mb-1"><strong>Category:</strong> {product?.category?.name}</span>
-              <span className="block text-gray-600"><strong>Availability:</strong> In Stock</span>
-            </div>
-            
-            <button
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 mb-4"
-              onClick={() => {
-                setCart((prevCart) => [...prevCart, product]);
-                toast.success("Added to cart successfully!");
-              }}
-            >
-              🛒 ADD TO CART
-            </button>
-            
-            <button
-              className="w-full bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300"
-              onClick={() => {
-                setCart((prevCart) => [...prevCart, product]);
-                navigate("/cart");
-              }}
-            >
-              🚀 BUY NOW
-            </button>
-          </div>
+    <div className="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen">
+      <main className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="flex items-center text-sm text-gray-600 mb-6 font-bold">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="flex items-center font-bold text-indigo-600 hover:text-indigo-800 mr-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back
+          </button>
+          <span>/</span>
+          <span className="ml-2 capitalize">{product.category?.name}</span>
+          <span>/</span>
+          <span className="ml-2 text-indigo-600 font-bold">{product.name}</span>
         </div>
 
-        {/* Reviews Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-bold text-indigo-700 mb-6">⭐ Submit Your Review</h3>
-            <div className="mb-6">
-              <label className="block text-gray-700 font-medium mb-2">Rating</label>
-              <StarRating value={rating} onChange={setRating} editable={true} />
-            </div>
-            <div className="mb-6">
-              <label className="block text-gray-700 font-medium mb-2">Review</label>
-              <textarea
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                rows={4}
-                placeholder="Share your experience with this product..."
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+       
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="p-4 flex justify-center items-center h-full min-h-[400px]">
+              <img
+                src={`${import.meta.env.VITE_API_BASE_URL}/api/product-photo/${product._id}`}
+                alt={product.name}
+                className="w-full h-auto max-h-[500px] object-contain transition duration-300 hover:scale-105"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://via.placeholder.com/500x500?text=Product+Image";
+                }}
               />
             </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col">
+            <div className="flex-grow">
+              <div className="flex justify-between items-start">
+                <h2 className="text-xl font-bold text-gray-800 mb-2 mx-4">{product.name}</h2>
+                {/* <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                  {product.category?.name}
+                </span> */}
+              </div>
+              
+              <div className="flex items-center mb-4 mx-4">
+                <StarRating value={product.averageRating || 0} editable={false} />
+                <span className="ml-2 text-sm text-gray-600">
+                  {product.averageRating?.toFixed(1) || "No"} reviews
+                  {product.reviews?.length > 0 && (
+                    <span className="text-indigo-600 ml-1">({product.reviews.length})</span>
+                  )}
+                </span>
+              </div>
+              
+              <div className="mb-6">
+                <span className="text-3xl font-bold mx-4 text-blue-950">₹{product.price}</span>
+                {product.price > 1000 && (
+                  <span className="ml-4 text-sm text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                    Free Shipping
+                  </span>
+                )}
+              </div>
+              
+              <div className="prose max-w-none text-gray-600 mb-6 px-2.5 mx-4">
+                <p>{product.description}</p>
+              </div>
+              
+              <div className="space-y-2 mb-6">
+                <div className="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mx-4 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-gray-700 ">In Stock & Ready to Ship</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-auto space-y-3 flex">
+              <button style={{borderRadius:'20px'}}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-2 px-4 shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+                onClick={() => {
+                  setCart([...cart, product]);
+                  toast.success("Added to cart!");
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                Add to Cart
+              </button>
+              <button
+                style={{borderRadius:'20px'}}
+                className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+                onClick={() => {
+                  setCart([...cart, product]);
+                  navigate("/cart");
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                Buy Now
+              </button>
+            </div>
+          </div>
+        </section>
+                <br />
+        {/* Reviews Section */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          <div style={{borderBottomRightRadius:'20px',borderBottomLeftRadius:'20px'}} className="bg-white rounded-xl shadow-lg p-6">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
+              Write a Review
+            </h3>
+            
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2 mx-4">Your Rating</label>
+              <div className="flex items-center mx-4">
+                <StarRating value={rating} onChange={setRating} editable={true} size={28} />
+                <span className="ml-3 text-gray-500 text-sm">
+                  {rating > 0 ? `${rating} star${rating !== 1 ? 's' : ''}` : 'Select rating'}
+                </span>
+              </div>
+            </div>
+            
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2 mx-4">Your Review</label>
+              <textarea
+                rows={5}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                placeholder="Share your thoughts about this product..."
+              />
+            </div>
+            
             <button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300"
+              style={{borderRadius:'20px'}}
+              className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-300 ${submittingReview ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 shadow-md hover:shadow-lg'}`}
               onClick={submitReview}
               disabled={submittingReview}
             >
               {submittingReview ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
                   Submitting...
                 </span>
-              ) : "Submit Review"}
+              ) : 'Submit Review'}
             </button>
           </div>
 
+          {/* Customer Reviews */}
           <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-bold text-indigo-700 mb-6">🗣️ Customer Reviews</h3>
-            <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
-              {product?.reviews?.length > 0 ? (
-                product.reviews.map((review, index) => (
-                  <div key={index} className="border-b border-gray-200 pb-4 last:border-0">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              </svg>
+              Customer Reviews
+            </h3>
+            
+            {product.reviews?.length > 0 ? (
+              <div className="space-y-6 max-h-[500px] overflow-y-auto pr-2">
+                {product.reviews.map((review, idx) => (
+                  <div key={idx} className="pb-6 border-b border-gray-100 last:border-0 last:pb-0">
                     <div className="flex justify-between items-start mb-2">
-                      <h4 className="font-medium text-gray-800">{review.name}</h4>
-                      <div className="flex items-center">
-                        <StarRating value={review.rating} edit={false} size={16} />
-                        <span className="ml-1 text-sm text-gray-500">{review.rating}.0</span>
+                      <div>
+                        <h4 className="font-semibold text-gray-800">{review.name}</h4>
+                        <p className="text-xs text-gray-500">
+                          {new Date(review.createdAt).toLocaleDateString("en-IN", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </p>
+                      </div>
+                      <div className="flex items-center bg-indigo-50 px-2 py-1 rounded">
+                        <StarRating value={review.rating} editable={false} size={16} />
+                        <span className="ml-1 text-sm font-medium text-indigo-800">{review.rating}.0</span>
                       </div>
                     </div>
-                    <p className="text-gray-600 mb-2">{review.comment}</p>
-                    <p className="text-sm text-gray-400">
-                      {new Date(review.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </p>
+                    <p className="text-gray-600">{review.comment}</p>
                   </div>
-                ))
-              ) : (
-                <div className="text-center py-8">
-                  <p className="text-gray-500">No reviews yet. Be the first to review!</p>
-                </div>
-              )}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h4 className="mt-2 text-lg font-medium text-gray-600">No reviews yet</h4>
+                <p className="mt-1 text-gray-500">Be the first to review this product</p>
+              </div>
+            )}
           </div>
-        </div>
+        </section>
 
-        {/* Similar Products Section */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-bold text-indigo-700 mb-6">🔁 Similar Products</h3>
+        {/* Similar Products */}
+        <br /><br />
+        <section className="mb-16">
+          <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            You May Also Like
+          </h3>
+          
           {relatedProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((p) => (
-                <div key={p._id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  <div className="h-48 bg-gray-100 flex items-center justify-center p-4">
+                <div key={p._id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
+                  <div className="relative h-48 bg-gray-100 flex items-center justify-center p-4">
                     <img
                       src={`${import.meta.env.VITE_API_BASE_URL}/api/product-photo/${p._id}`}
                       alt={p.name}
-                      className="max-h-full max-w-full object-contain"
+                      className="h-full w-full object-contain"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = "https://via.placeholder.com/300x300?text=Product+Image";
+                        e.target.src = "https://via.placeholder.com/300?text=Product";
                       }}
                     />
+                    <button 
+                      onClick={() => {
+                        setCart([...cart, p]);
+                        toast.success("Added to cart!");
+                      }}
+                      className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-indigo-50 transition"
+                      title="Add to cart"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </button>
                   </div>
+                  
                   <div className="p-4">
-                    <h4 className="font-bold text-gray-800 mb-1 truncate">{p.name}</h4>
-                    <p className="text-sm text-gray-600 mb-2 line-clamp-2">{p.description}</p>
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="font-bold text-green-600">₹{p.price}</span>
+                    <h4 className="font-semibold text-gray-800 mb-1 truncate">{p.name}</h4>
+                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">{p.description}</p>
+                    
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="font-bold text-gray-900">₹{p.price}</span>
                       <div className="flex items-center">
-                        <StarRating value={p.averageRating || 0} edit={false} size={14} />
-                        <span className="ml-1 text-xs text-gray-500">{p.averageRating?.toFixed(1) || '0'}</span>
+                        <StarRating value={p.averageRating || 0} editable={false} size={16} />
+                        <span className="ml-1 text-xs text-gray-500">{p.averageRating?.toFixed(1) || 0}</span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
+                    
+                    <div className="mt-4 flex space-x-2">
                       <button
-                        className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 text-sm font-medium py-1 px-2 rounded transition-all duration-200"
                         onClick={() => navigate(`/product/${p.slug}`)}
+                        className="flex-1 text-sm font-medium text-indigo-600 hover:text-indigo-800 py-1 px-2 border border-indigo-200 rounded-lg hover:bg-indigo-50 transition"
                       >
-                        Details
+                        View Details
                       </button>
                       <button
-                        className="bg-green-100 hover:bg-green-200 text-green-700 text-sm font-medium py-1 px-2 rounded transition-all duration-200"
                         onClick={() => {
-                          setCart((prevCart) => [...prevCart, p]);
+                          setCart([...cart, p]);
                           toast.success("Added to cart!");
                         }}
+                        className="flex-1 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 py-1 px-2 rounded-lg transition"
                       >
                         Add to Cart
                       </button>
@@ -281,26 +371,15 @@ const ProductDetails = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 bg-white rounded-xl shadow">
-              <p className="text-gray-500">No similar products found</p>
+            <div className="bg-white p-8 rounded-xl shadow text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h4 className="mt-3 text-lg font-medium text-gray-600">No similar products found</h4>
             </div>
           )}
-        </div>
+        </section>
       </main>
-
-      {/* Fixed Footer */}
-      <footer className="bg-gradient-to-r from-indigo-800 to-purple-800 text-white py-6">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <h3 className="text-xl font-bold">IntelliBuy</h3>
-              <p className="text-indigo-200">Your smart shopping destination</p>
-            </div>
-           
-          </div>
-        
-        </div>
-      </footer>
     </div>
   );
 };
