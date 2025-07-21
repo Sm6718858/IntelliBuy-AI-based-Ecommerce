@@ -207,9 +207,21 @@ const ProductDetails = () => {
         <br />
         {/* Reviews Section */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          <div style={{ borderBottomRightRadius: '15px', borderBottomLeftRadius: '15px' }} className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-b-4 border-l-4 border-r-4 
-            border-t-pink-500 border-b-pink-500 
-            border-l-blue-700 border-r-blue-700">
+          <div
+            style={{
+              borderBottomRightRadius: '15px',
+              borderBottomLeftRadius: '15px',
+              height: '350px',
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              transform: 'translateZ(0)'
+            }}
+            className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-l-4 border-r-4 
+      border-t-pink-500
+      border-l-blue-700 border-r-blue-700"
+            will-change-transform
+          >
             <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center mx-4">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
@@ -217,30 +229,36 @@ const ProductDetails = () => {
               Write a Review
             </h3>
 
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2 mx-4">Your Rating</label>
-              <div className="flex items-center mx-4">
+            <div className="mb-6 mx-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2 resize-none">Your Rating</label>
+              <div className="flex items-center resize-none">
                 <StarRating value={rating} onChange={setRating} editable={true} size={28} />
-                <span className="ml-3 text-gray-500 text-sm">
+                <span className="ml-3 text-gray-500 text-sm resize-none">
                   {rating > 0 ? `${rating} star${rating !== 1 ? 's' : ''}` : 'Select rating'}
                 </span>
               </div>
             </div>
 
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2 mx-4">Your Review</label>
+            <div className="mb-6 mx-4 flex-grow" style={{ minHeight: '150px', overflow: 'hidden' }}>
+              <label style={{overflow:'none'}} className="block text-sm font-medium text-gray-700 mb-2 resize-none">Your Review</label>
               <textarea
-                rows={5}
+                rows={4}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-200 transition"
+                className="w-full h-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-200 transition resize-none"
                 placeholder="Share your thoughts about this product..."
+                style={{ minHeight: '150px' }}
               />
             </div>
 
             <button
-              style={{borderBottomLeftRadius: '12px', borderBottomRightRadius: '12px'}}
-              className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-300 ${submittingReview ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 shadow-md hover:shadow-lg'}`}
+              style={{
+                borderBottomLeftRadius: '12px',
+                borderBottomRightRadius: '12px',
+                marginTop: 'auto'
+              }}
+              className={`w-full py-3 px-4 font-semibold text-white transition-all duration-300 ${submittingReview ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 shadow-md hover:shadow-lg'
+                }`}
               onClick={submitReview}
               disabled={submittingReview}
             >
@@ -257,10 +275,12 @@ const ProductDetails = () => {
           </div>
 
           {/* Customer Reviews */}
-          <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-b-4 border-l-4 border-r-4 
-            border-t-pink-500 border-b-pink-500 
-            border-l-blue-700 border-r-blue-700
-          ">
+          <div
+            className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-b-4 border-l-4 border-r-4 
+      border-t-pink-500 border-b-pink-500 
+      border-l-blue-700 border-r-blue-700"
+            style={{ height: '350px' }} 
+          >
             <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center px-3">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -269,7 +289,13 @@ const ProductDetails = () => {
             </h3>
 
             {product.reviews?.length > 0 ? (
-              <div className="space-y-6 max-h-[500px] overflow-y-auto pr-2 mx-4">
+              <div
+                className="space-y-6 pr-3 mx-4 custom-scrollbar"
+                style={{
+                  height: 'calc(100% - 3rem)', // Adjust based on heading height
+                  overflowY: 'auto'
+                }}
+              >
                 {product.reviews.map((review, idx) => (
                   <div key={idx} className="pb-6 border-b border-gray-100 last:border-0 last:pb-0">
                     <div className="flex justify-between items-start mb-2">
@@ -293,7 +319,10 @@ const ProductDetails = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8">
+              <div
+                className="text-center py-8"
+                style={{ height: 'calc(100% - 3rem)' }} // Adjust based on heading height
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
