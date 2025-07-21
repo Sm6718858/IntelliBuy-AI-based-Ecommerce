@@ -102,8 +102,8 @@ const ProductDetails = () => {
     <div className="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen">
       <main className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="flex items-center text-sm text-gray-600 mb-6 font-bold">
-          <button 
-            onClick={() => navigate(-1)} 
+          <button
+            onClick={() => navigate(-1)}
             className="flex items-center font-bold text-indigo-600 hover:text-indigo-800 mr-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -118,13 +118,13 @@ const ProductDetails = () => {
         </div>
 
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-       
+
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="p-4 flex justify-center items-center h-full min-h-[400px]">
+            <div className="p-4 flex justify-center items-center h-full min-h-[400px] border-animated bg-white rounded-md">
               <img
                 src={`${import.meta.env.VITE_API_BASE_URL}/api/product-photo/${product._id}`}
                 alt={product.name}
-                className="w-full h-auto max-h-[500px] object-contain transition duration-300 hover:scale-105"
+                className="w-full h-auto max-h-[500px] object-contain transition duration-300 hover:scale-105 "
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://via.placeholder.com/500x500?text=Product+Image";
@@ -141,7 +141,7 @@ const ProductDetails = () => {
                   {product.category?.name}
                 </span> */}
               </div>
-              
+
               <div className="flex items-center mb-4 mx-4">
                 <StarRating value={product.averageRating || 0} editable={false} />
                 <span className="ml-2 text-sm text-gray-600">
@@ -151,7 +151,7 @@ const ProductDetails = () => {
                   )}
                 </span>
               </div>
-              
+
               <div className="mb-6">
                 <span className="text-3xl font-bold mx-4 text-blue-950">₹{product.price}</span>
                 {product.price > 1000 && (
@@ -160,11 +160,11 @@ const ProductDetails = () => {
                   </span>
                 )}
               </div>
-              
+
               <div className="prose max-w-none text-gray-600 mb-6 px-2.5 mx-4">
                 <p>{product.description}</p>
               </div>
-              
+
               <div className="space-y-2 mb-6">
                 <div className="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mx-4 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -174,9 +174,9 @@ const ProductDetails = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="mt-auto space-y-3 flex">
-              <button style={{borderRadius:'20px'}}
+              <button style={{ borderRadius: '20px' }}
                 className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-2 px-4 shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
                 onClick={() => {
                   setCart([...cart, product]);
@@ -189,7 +189,7 @@ const ProductDetails = () => {
                 Add to Cart
               </button>
               <button
-                style={{borderRadius:'20px'}}
+                style={{ borderRadius: '20px' }}
                 className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
                 onClick={() => {
                   setCart([...cart, product]);
@@ -204,17 +204,19 @@ const ProductDetails = () => {
             </div>
           </div>
         </section>
-                <br />
+        <br />
         {/* Reviews Section */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          <div style={{borderBottomRightRadius:'20px',borderBottomLeftRadius:'20px'}} className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+          <div style={{ borderBottomRightRadius: '15px', borderBottomLeftRadius: '15px' }} className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-b-4 border-l-4 border-r-4 
+            border-t-pink-500 border-b-pink-500 
+            border-l-blue-700 border-r-blue-700">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center mx-4">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
               </svg>
               Write a Review
             </h3>
-            
+
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2 mx-4">Your Rating</label>
               <div className="flex items-center mx-4">
@@ -224,20 +226,20 @@ const ProductDetails = () => {
                 </span>
               </div>
             </div>
-            
+
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2 mx-4">Your Review</label>
               <textarea
                 rows={5}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-200 transition"
                 placeholder="Share your thoughts about this product..."
               />
             </div>
-            
+
             <button
-              style={{borderRadius:'20px'}}
+              style={{borderBottomLeftRadius: '12px', borderBottomRightRadius: '12px'}}
               className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-300 ${submittingReview ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 shadow-md hover:shadow-lg'}`}
               onClick={submitReview}
               disabled={submittingReview}
@@ -255,16 +257,19 @@ const ProductDetails = () => {
           </div>
 
           {/* Customer Reviews */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+          <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-b-4 border-l-4 border-r-4 
+            border-t-pink-500 border-b-pink-500 
+            border-l-blue-700 border-r-blue-700
+          ">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center px-3">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
               </svg>
               Customer Reviews
             </h3>
-            
+
             {product.reviews?.length > 0 ? (
-              <div className="space-y-6 max-h-[500px] overflow-y-auto pr-2">
+              <div className="space-y-6 max-h-[500px] overflow-y-auto pr-2 mx-4">
                 {product.reviews.map((review, idx) => (
                   <div key={idx} className="pb-6 border-b border-gray-100 last:border-0 last:pb-0">
                     <div className="flex justify-between items-start mb-2">
@@ -308,7 +313,7 @@ const ProductDetails = () => {
             </svg>
             You May Also Like
           </h3>
-          
+
           {relatedProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((p) => (
@@ -323,7 +328,7 @@ const ProductDetails = () => {
                         e.target.src = "https://via.placeholder.com/300?text=Product";
                       }}
                     />
-                    <button 
+                    <button
                       onClick={() => {
                         setCart([...cart, p]);
                         toast.success("Added to cart!");
@@ -336,11 +341,11 @@ const ProductDetails = () => {
                       </svg>
                     </button>
                   </div>
-                  
+
                   <div className="p-4">
                     <h4 className="font-semibold text-gray-800 mb-1 truncate">{p.name}</h4>
                     <p className="text-sm text-gray-600 mb-3 line-clamp-2">{p.description}</p>
-                    
+
                     <div className="flex justify-between items-center mt-2">
                       <span className="font-bold text-gray-900">₹{p.price}</span>
                       <div className="flex items-center">
@@ -348,7 +353,7 @@ const ProductDetails = () => {
                         <span className="ml-1 text-xs text-gray-500">{p.averageRating?.toFixed(1) || 0}</span>
                       </div>
                     </div>
-                    
+
                     <div className="mt-4 flex space-x-2">
                       <button
                         onClick={() => navigate(`/product/${p.slug}`)}
