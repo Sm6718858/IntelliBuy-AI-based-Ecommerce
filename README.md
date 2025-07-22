@@ -79,27 +79,15 @@ RAZORPAY_SECRET=your_secret
 AI_API_KEY=your_ai_api_key
 Run the server:
 
-bash
-Copy
-Edit
 npm start
 3. Setup Frontend
-bash
-Copy
-Edit
+
 cd ../FrontEnd
 npm install
 npm run dev
-📸 Screenshots
-📱 User Dashboard	🛍️ AI Suggestions	🧑‍💼 Admin Panel
-		
-
-(You can replace the # with actual links later.)
 
 📦 Folder Structure
-arduino
-Copy
-Edit
+
 E-Commerce/
 ├── BackEnd/
 │   ├── config/
@@ -116,7 +104,7 @@ E-Commerce/
 │   ├── vite.config.js
 │   └── index.html
 ```
-✍️ Author
+✍️ Developer
 Shivam Mishra 
 LinkedIn: https://www.linkedin.com/in/shivam134
 mail - sm6718858@gmail.com
