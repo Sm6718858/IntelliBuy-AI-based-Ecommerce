@@ -1,7 +1,6 @@
 # 🛍️ IntelliBuy - AI-Based E-Commerce Platform
 
 **Live Preview:** [IntelliBuy Live](https://intelli-buy-ai-based-ecommerce-5ig4.vercel.app/)  
-**Clone Repository:** [`https://github.com/Sm6718858/IntelliBuy-AI-based-Ecommerce.git`](https://github.com/Sm6718858/IntelliBuy-AI-based-Ecommerce.git)
 
 ---
 
