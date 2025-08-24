@@ -6,7 +6,7 @@
 
 ## 📌 Overview
 
-IntelliBuy is a powerful, full-stack, AI-integrated e-commerce platform designed to deliver a seamless shopping experience. It includes a smart **Admin & User Dashboard**, **AI-powered product suggestions**, secure **authentication**, **Razorpay** payment integration, and real-time **order & review management**. Built using the **MERN Stack**, this project emphasizes responsiveness, modern design, and intuitive UX.
+IntelliBuy is a powerful, full-stack, AI-integrated e-commerce platform designed to deliver a seamless shopping experience. It includes a smart **Admin & User Dashboard**, **AI-powered product suggestions**, secure **authentication**, **Razorpay** payment integration, and real-time **order & review management**. Built using the **MERN Stack**, this project emphasizes responsiveness, modern design, and Best UX.
 
 ---
 
