@@ -116,7 +116,7 @@ const HomePage = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <section className="relative w-full h-[600px] md:h-[500px] lg:h-[600px] overflow-hidden">
+      <section className="relative w-full h-[800px] md:h-[500px] lg:h-[600px] overflow-hidden">
   <video
     autoPlay
     loop
