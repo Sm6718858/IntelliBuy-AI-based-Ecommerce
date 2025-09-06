@@ -3,6 +3,10 @@
 *:focus {
   outline: none !important;
 }
+html {
+  scroll-behavior: smooth;
+}
+
 
 @layer utilities {
   .border-animated {
@@ -77,6 +81,24 @@ html {
     }
   }
 }
+/* 🌊 Moving Wave Gradient Background */
+.wave-bg {
+  background: linear-gradient(270deg, #ff7eb3, #65d8ff, #7afcff, #ff65a3);
+  background-size: 800% 800%;
+  animation: waveFlow 20s ease infinite;
+}
+
+@keyframes waveFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
 @keyframes marquee {
     0% { transform: translateX(100%) }
@@ -88,4 +110,10 @@ html {
     animation: marquee 15s linear infinite;
   }
 
-
+.shop-button{
+  width: 100px;
+  border-radius: 20px;
+}
+.load-more{
+  border-radius: 30px;
+}

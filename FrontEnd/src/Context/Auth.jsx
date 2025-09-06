@@ -6,7 +6,7 @@ const AuthContext = createContext();
 
 const Auth = ({ children }) => {
   const [auth, setAuth] = useState({ user: null, token: '' });
-  const [loading, setLoading] = useState(true); // 🧠
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const storedAuth = localStorage.getItem('auth');
@@ -15,7 +15,7 @@ const Auth = ({ children }) => {
       setAuth(parsed);
       axios.defaults.headers.common['Authorization'] = `Bearer ${parsed.token}`;
     }
-    setLoading(false); // ✅ auth is now ready
+    setLoading(false);
   }, []);
 
   useEffect(() => {

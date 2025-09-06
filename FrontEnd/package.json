@@ -19,7 +19,7 @@
     "bootstrap": "^5.3.6",
     "braintree-web-drop-in-react": "^1.2.1",
     "dotenv": "^16.5.0",
-    "framer-motion": "^12.20.5",
+    "framer-motion": "^12.23.12",
     "lucide-react": "^0.525.0",
     "mdb-react-ui-kit": "^9.0.0",
     "moment": "^2.30.1",
