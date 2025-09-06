@@ -1,13 +1,12 @@
 # 🛍️ IntelliBuy - AI-Based E-Commerce Platform
 
 **Live Preview:** [IntelliBuy Live](https://intelli-buy-ai-based-ecommerce-5ig4.vercel.app/)  
-**Clone Repository:** [`https://github.com/Sm6718858/IntelliBuy-AI-based-Ecommerce.git`](https://github.com/Sm6718858/IntelliBuy-AI-based-Ecommerce.git)
 
 ---
 
 ## 📌 Overview
 
-IntelliBuy is a powerful, full-stack, AI-integrated e-commerce platform designed to deliver a seamless shopping experience. It includes a smart **Admin & User Dashboard**, **AI-powered product suggestions**, secure **authentication**, **Razorpay** payment integration, and real-time **order & review management**. Built using the **MERN Stack**, this project emphasizes responsiveness, modern design, and intuitive UX.
+IntelliBuy is a powerful, full-stack, AI-integrated e-commerce platform designed to deliver a seamless shopping experience. It includes a smart **Admin & User Dashboard**, **AI-powered product suggestions**, secure **authentication**, **Razorpay** payment integration, and real-time **order & review management**. Built using the **MERN Stack**, this project emphasizes responsiveness, modern design, and Best UX.
 
 ---
 
