@@ -256,7 +256,7 @@ const ProductDetails = () => {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           {/* Write Review */}
           <div
-            className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-l-4 border-r-4 
+            className="bg-white mt-4 rounded-xl shadow-lg p-6 border-t-4 border-l-4 border-r-4 
             border-t-pink-500 border-l-blue-700 border-r-blue-700 flex flex-col"
             style={{
               minHeight: "350px",
@@ -327,7 +327,7 @@ const ProductDetails = () => {
 
           {/* Customer Reviews */}
           <div
-            className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-b-4 border-l-4 border-r-4 
+            className="bg-white mt-4 rounded-xl shadow-lg p-6 border-t-4 border-b-4 border-l-4 border-r-4 
             border-t-pink-500 border-b-pink-500 border-l-blue-700 border-r-blue-700"
             style={{ height: "350px" }}
           >

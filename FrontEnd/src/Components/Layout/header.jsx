@@ -35,8 +35,8 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
         
         <div className="flex items-center justify-between w-full md:w-auto">
-          <NavLink to="/" style={{ textDecoration: 'none' }} className="flex items-center gap-2">
-            <img src={logo} alt="IntelliBuy Logo" className="h-10 sm:h-12 md:h-14 w-auto object-contain" />
+          <NavLink to="/" style={{ textDecoration: 'none' }} className="flex items-center gap-1">
+            <img src={logo} alt="IntelliBuy Logo" className="image-container h-8 sm:h-12 md:h-11 w-auto object-contain "  />
             <span className="text-white text-xl sm:text-2xl md:text-3xl font-bold tracking-wide sm:inline">IntelliBuy</span>
           </NavLink>
 
