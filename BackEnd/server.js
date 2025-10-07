@@ -7,6 +7,7 @@ import productRoute from './routes/ProductRoute.js';
 import chatRoutes from "./routes/chatRoutes.js";
 import paymentRountes from './routes/PaymentRoute.js'
 import initializePaymentCleanup from './models/PaymentCleanup.js';
+// import "./controller/autoProductUpdate.js";
 import cors from 'cors';
 
 dotenv.config();

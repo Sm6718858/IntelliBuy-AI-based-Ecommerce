@@ -133,6 +133,7 @@ const ChatBot = ({ onClose }) => {
                 ? "bg-blue-500 text-white hover:bg-blue-600"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
+            
           >
             <IoSend size={18} />
           </button>

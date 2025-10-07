@@ -68,9 +68,9 @@ const App = () => {
       <button
         onClick={() => setShowChat(!showChat)}
         style={{borderRadius: '50%'}}
-        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-4 shadow-lg z-40"
+        className="fixed bottom-6 right-6 bg-pink-600 hover:bg-pink-700 text-white p-4 shadow-lg z-40"
       >
-        <FaCommentDots size={24} />
+        <FaCommentDots size={20} />
       </button>
     </>
   );

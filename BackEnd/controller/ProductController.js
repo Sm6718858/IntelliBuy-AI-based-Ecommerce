@@ -94,8 +94,6 @@ export const singleProduct = async (req, res) => {
   }
 };
 
-
-
 export const productPhoto = async (req, res) => {
   try {
     const pid = req.params.pid;
