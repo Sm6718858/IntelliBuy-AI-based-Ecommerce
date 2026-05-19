@@ -271,8 +271,9 @@ const HomePage = () => {
           {products.length < total && (
             <div className="flex justify-center mt-16">
               <button
+                style={{borderRadius:'10px'}}
                 onClick={() => setPage(page + 1)}
-                className="px-12 py-4 rounded-full bg-gradient-to-r from-black to-gray-700 text-white font-bold"
+                className="px-8 py-2 mt-3 rounded-full bg-black text-white font-bold"
               >
                 {loading ? "Loading..." : "Load More"}
               </button>

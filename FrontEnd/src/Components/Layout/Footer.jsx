@@ -3,7 +3,7 @@ import { Github, Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="mt-6 border-t border-gray-200 bg-white">
+    <footer style={{marginTop:'8px'}} className="mt-6 border-t border-gray-200 bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4 md:px-6 md:py-8 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
 
         <p className="text-xs md:text-sm text-gray-600 text-center md:text-left">

@@ -394,7 +394,7 @@ const ProductDetails = () => {
             )}
           </div>
         </section>
-
+        
         <section className="mb-16 mt-4">
           <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
             <svg
@@ -415,7 +415,7 @@ const ProductDetails = () => {
           </h3>
 
           {relatedProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div style={{marginBottom:'20px'}} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((p) => (
                 <div
                   key={p._id}
