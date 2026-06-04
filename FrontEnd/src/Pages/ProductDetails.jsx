@@ -101,9 +101,9 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen overflow-x-hidden">
-      <main className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="flex items-center mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 py-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* <div className="flex items-center mb-6">
           <button
             onClick={() => navigate(-1)}
             className="p-2 rounded-full hover:bg-gray-200 transition"
@@ -124,55 +124,59 @@ const ProductDetails = () => {
               />
             </svg>
           </button>
-        </div>
+        </div> */}
 
 
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          <div className="bg-white rounded-2xl shadow-md overflow-hidden mt-2 transition-all duration-300 hover:shadow-xl">
-            <div className="p-3 sm:p-5 flex justify-center items-center bg-white rounded-md">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full max-w-[500px] h-auto object-contain transition-transform duration-300 hover:scale-105"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src =
-                    "https://via.placeholder.com/500x500?text=Product+Image";
-                }}
-              />
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
+          <div className="flex items-center justify-center">
+            <div className="relative w-full bg-gradient-to-br from-white to-slate-50 rounded-3xl shadow-2xl border border-slate-200 p-8 lg:p-12 overflow-hidden">
 
+
+              <div className="flex items-center justify-center min-h-[350px] lg:min-h-[550px]">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="max-h-[550px] w-full object-contain transition-all duration-500 hover:scale-110"
+                />
+              </div>
+
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-100/50 to-transparent" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col">
+          <div className="bg-gray-50 rounded-3xl shadow-xl border border-slate-200 p-8 flex flex-col">
             <div className="flex-grow">
-              <div className="flex justify-between items-start">
-                <h2 className="text-xl font-bold text-gray-800 mb-2 mx-4">
+              <div className="flex flex-col  lg:flex-row lg:items-center lg:justify-between gap-1 mb-2 mx-4">
+
+                <h2
+                  style={{ color: "red", fontWeight: "bold", marginTop: '10px' }}
+                  className="text-xl lg:text-2xl font-bold"
+                >
                   {product.name}
                 </h2>
-              </div>
 
-              <div className="flex items-center mb-4 mx-4">
-                <StarRating value={product.averageRating || 0} editable={false} />
-                <span className="ml-2 text-sm text-gray-600">
-                  {product.averageRating?.toFixed(1) || "No"} reviews
-                  {product.reviews?.length > 0 && (
-                    <span className="text-indigo-600 ml-1">
-                      ({product.reviews.length})
-                    </span>
-                  )}
-                </span>
+                <div className="flex items-center">
+                  <StarRating
+                    value={product.averageRating || 0}
+                    editable={false}
+                  />
+
+                  <span className="ml-2 text-sm text-gray-600 whitespace-nowrap">
+                    {product.averageRating?.toFixed(1) || "No"} reviews
+                    {product.reviews?.length > 0 && (
+                      <span className="text-indigo-600 ml-1">
+                        ({product.reviews.length})
+                      </span>
+                    )}
+                  </span>
+                </div>
+
               </div>
 
               <div className="mb-6">
-                <span className="text-3xl font-bold mx-4 text-blue-950">
+                <span className="text-3xl font-bold mx-4 text-blue-800">
                   ₹{product.price}
                 </span>
-                {product.price > 1000 && (
-                  <span className="ml-4 text-sm text-green-600 bg-green-100 px-2 py-1 rounded-full">
-                    Free Shipping
-                  </span>
-                )}
               </div>
 
               <div className="prose max-w-none text-gray-600 mb-6 px-2.5 mx-4 mt-4">
@@ -181,21 +185,27 @@ const ProductDetails = () => {
 
               <div className="space-y-2 mb-6">
                 <div className="flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mx-4 text-green-500 mr-2"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-gray-700 mb-2">
-                    In Stock & Ready to Ship
-                  </span>
+
+                  <div className="grid grid-cols-2 lg:flex lg:flex-wrap gap-3 mt-4 m-4">
+                    <span className="px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium text-sm border border-green-200">
+                      ✓ In Stock
+                    </span>
+
+                    <span className="px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-medium text-sm border border-blue-200">
+                      🚚 Free Shipping
+                    </span>
+
+                    <span className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-medium text-sm border border-purple-200">
+                      🔒 Secure Payment
+                    </span>
+
+                    <span className="px-4 py-2 rounded-full bg-orange-100 text-orange-700 font-medium text-sm border border-orange-200">
+                      ↩ Easy Returns
+                    </span>
+                    <span className="px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 font-medium text-sm border border-indigo-200">
+                      ⭐ Top Rated
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -205,7 +215,7 @@ const ProductDetails = () => {
                 style={{
                   borderBottomLeftRadius: "15px",
                 }}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-2 px-4 shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-4 px-4 shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
                 onClick={() => {
                   setCart([...cart, product]);
                   toast.success("Added to cart!");
@@ -260,7 +270,7 @@ const ProductDetails = () => {
 
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           <div
-            className="bg-white mt-4 rounded-xl shadow-lg p-6 
+            className="bg-gray-50 mt-4 rounded-xl shadow-lg p-6 
              flex flex-col"
             style={{
               minHeight: "350px",
@@ -269,7 +279,7 @@ const ProductDetails = () => {
               overflow: "hidden",
             }}
           >
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center mx-4">
+            <h3 style={{color:'#FE0000', fontWeight:'bold'}} className="text-xl lg:text-2xl font-bold mb-6 flex items-center mx-4 mt-3">
               Write a Review
             </h3>
 
@@ -283,7 +293,7 @@ const ProductDetails = () => {
                   value={rating}
                   onChange={setRating}
                   size={28}
-                  activeColor="#ffd700"
+                  activeColor="red"
                   isHalf={true}
                 />
                 <span className="ml-3 text-gray-500 text-sm">
@@ -327,10 +337,10 @@ const ProductDetails = () => {
           </div>
 
           <div
-            className="bg-white mt-4 rounded-xl shadow-lg p-6"
+            className="bg-gray-50 mt-3 rounded-xl shadow-lg p-6"
             style={{ height: "350px" }}
           >
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center px-3">
+            <h3 style={{color:'#FE0000', fontWeight:'bold'}} className="text-xl lg:text-2xl font-bold mb-6 flex items-center px-3 mt-3">
               Customer Reviews
             </h3>
 
@@ -349,9 +359,9 @@ const ProductDetails = () => {
                   >
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <h4 className="font-semibold text-gray-800">
+                        <p className="text-lg text-gray-800">
                           {review.name || review.user?.name || "Anonymous"}
-                        </h4>
+                        </p>
                         <p className="text-xs text-gray-500">
                           {new Date(review.createdAt).toLocaleDateString(
                             "en-IN",
@@ -394,9 +404,9 @@ const ProductDetails = () => {
             )}
           </div>
         </section>
-        
+
         <section className="mb-16 mt-4">
-          <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+          <h3 style={{color:'#FE0000', fontWeight:'bold'}} className="text-xl lg:text-2xl font-bold text-gray-800 mb-6 flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 text-purple-500 mr-2"
@@ -415,7 +425,7 @@ const ProductDetails = () => {
           </h3>
 
           {relatedProducts.length > 0 ? (
-            <div style={{marginBottom:'20px'}} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div style={{ marginBottom: '20px' }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((p) => (
                 <div
                   key={p._id}
