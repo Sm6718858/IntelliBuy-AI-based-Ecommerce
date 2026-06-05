@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useCart } from "../Context/Cart";
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter, X } from "lucide-react";
+import { Filter, X, ShoppingCart, Eye } from "lucide-react";
 
 const heroSlides = [
   {
@@ -29,7 +29,6 @@ const heroSlides = [
 const HomePage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
-
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -39,131 +38,73 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
-
   const productsRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(
-      () => setActiveSlide((p) => (p + 1) % heroSlides.length),
-      3500
-    );
+    const interval = setInterval(() => setActiveSlide((p) => (p + 1) % heroSlides.length), 3500);
     return () => clearInterval(interval);
   }, []);
 
   const getAllCategory = async () => {
-    const { data } = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/api/get-category`
-    );
+    const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/get-category`);
     if (data?.success) setCategories(data.categories);
-  };
-
-  const getTotal = async () => {
-    const { data } = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/api/product-count`
-    );
-    setTotal(data.total);
   };
 
   const getAllProducts = async () => {
     setLoading(true);
-    const { data } = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/api/product-list/${page}`
-    );
+    const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/product-list/${page}`);
     setLoading(false);
     setProducts(data.products);
   };
 
   const loadMore = async () => {
     setLoading(true);
-    const { data } = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/api/product-list/${page}`
-    );
+    const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/product-list/${page}`);
     setLoading(false);
     setProducts([...products, ...data.products]);
   };
 
-  const handleFilter = (value, id) => {
-    let all = [...checked];
-    value ? all.push(id) : (all = all.filter((c) => c !== id));
-    setChecked(all);
-  };
-
   const filterProduct = async () => {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/product-filters`,
-      { checked, radio }
-    );
+    const { data } = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/product-filters`, { checked, radio });
     setProducts(data.products);
-  };
-
-  const resetFilters = () => {
-    setChecked([]);
-    setRadio([]);
-    setPage(1);
-    getAllProducts();
-    setMobileFilterOpen(false);
   };
 
   useEffect(() => {
     getAllCategory();
-    getTotal();
-  }, []);
+  },[]);
 
   useEffect(() => {
-    if (page === 1) return;
-    loadMore();
+    if (page > 1) loadMore();
   }, [page]);
 
   useEffect(() => {
-    if (!checked.length && !radio.length) {
-      getAllProducts();
-      setPage(1);
-    }
+    if (!checked.length && !radio.length) { getAllProducts(); setPage(1); }
   }, [checked.length, radio.length]);
 
   useEffect(() => {
     if (checked.length || radio.length) filterProduct();
-  }, [checked, radio]);
+  },[checked, radio]);
 
   const FilterContent = ({ close }) => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-2">
         <h2 className="text-xl font-bold">Filters</h2>
         {close && <X onClick={close} className="cursor-pointer" />}
       </div>
-
       <Divider>Categories</Divider>
-      <div className="flex flex-col gap-2 max-h-48 overflow-y-auto">
+      <div className="flex flex-col gap-2 max-h-48 overflow-y-auto px-2">
         {categories.map((c) => (
-          <Checkbox
-            key={c._id}
-            checked={checked.includes(c._id)}
-            onChange={(e) => handleFilter(e.target.checked, c._id)}
-          >
-            {c.name}
-          </Checkbox>
+          <Checkbox key={c._id} checked={checked.includes(c._id)} onChange={(e) => {
+            let all = e.target.checked ? [...checked, c._id] : checked.filter((id) => id !== c._id);
+            setChecked(all);
+          }}>{c.name}</Checkbox>
         ))}
       </div>
-
       <Divider>Price</Divider>
-      <Radio.Group
-        className="flex flex-col gap-2"
-        onChange={(e) => setRadio(e.target.value)}
-        value={radio}
-      >
-        {Prices.map((p) => (
-          <Radio key={p._id} value={p.array}>
-            {p.name}
-          </Radio>
-        ))}
+      <Radio.Group className="flex flex-col gap-2 px-2" onChange={(e) => setRadio(e.target.value)} value={radio}>
+        {Prices.map((p) => <Radio key={p._id} value={p.array}>{p.name}</Radio>)}
       </Radio.Group>
-
-      <button
-        onClick={resetFilters}
-        className="w-full py-3 bg-black text-white rounded-xl font-semibold"
-      >
-        Reset Filters
-      </button>
+      <button style={{ borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }} onClick={() => { setChecked([]); setRadio([]); setMobileFilterOpen(false); getAllProducts(); }} className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold">Reset Filters</button>
     </div>
   );
 
@@ -171,97 +112,43 @@ const HomePage = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <section className="relative h-[90vh] overflow-hidden">
         <AnimatePresence>
-          <motion.div
-            key={activeSlide}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
-            className="absolute inset-0"
-          >
-            <img
-              src={heroSlides[activeSlide].image}
-              className="w-full h-full object-cover"
-            />
+          <motion.div key={activeSlide} initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }} className="absolute inset-0">
+            <img src={heroSlides[activeSlide].image} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/60" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
-              <h1 className="text-5xl md:text-7xl font-extrabold mb-4">
-                {heroSlides[activeSlide].title}
-              </h1>
-              <p className="text-xl mb-8">
-                {heroSlides[activeSlide].subtitle}
-              </p>
-              <button
-                onClick={() =>
-                  productsRef.current.scrollIntoView({ behavior: "smooth" })
-                }
-                style={{ borderRadius: '20px' }}
-                className="px-10 w-[120px] py-4 bg-white text-black rounded-full font-bold"
-              >
-                Shop Now
-              </button>
+              <h1 className="text-5xl md:text-7xl font-extrabold mb-4">{heroSlides[activeSlide].title}</h1>
+              <p className="text-xl mb-8">{heroSlides[activeSlide].subtitle}</p>
+              <button onClick={() => productsRef.current.scrollIntoView({ behavior: "smooth" })} style={{ borderRadius: '20px' }} className="px-10 w-[120px] py-4 bg-white text-black rounded-full font-bold">Shop Now</button>
             </div>
           </motion.div>
         </AnimatePresence>
       </section>
 
-      <section
-        ref={productsRef}
-        className="px-6 py-16 mt-3 grid grid-cols-1 md:grid-cols-5 gap-10"
-      >
-        <aside className="hidden md:block md:col-span-1 sticky top-24 h-fit 
-                 bg-white rounded-2xl shadow-lg p-6 
-                 translate-x-3">
-          <FilterContent />
+      <section ref={productsRef} className="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-5 gap-10">
+        <aside className="hidden md:block md:col-span-1">
+          <div className="sticky top-24 bg-white rounded-3xl shadow-lg border border-slate-100 p-6">
+            <FilterContent />
+          </div>
         </aside>
-
 
         <main className="md:col-span-4">
           <div className="md:hidden mb-6">
-            <button
-              onClick={() => setMobileFilterOpen(true)}
-              className="flex items-center gap-2 px-5 py-3 border rounded-full"
-            >
-              <Filter size={18} /> Filters
-            </button>
+            <button onClick={() => setMobileFilterOpen(true)} className="flex items-center gap-2 px-5 py-3 border rounded-full bg-white shadow-sm"><Filter size={18} /> Filters</button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-3">
             {products.map((p) => (
-              <motion.div
-                key={p._id}
-                whileHover={{ y: -8 }}
-                className="rounded-3xl bg-white/80 backdrop-blur border shadow-md hover:shadow-2xl transition overflow-hidden"
-              >
-                <div className="h-52 bg-gray-100 flex items-center justify-center">
-                  <img
-                    src={p.image}
-                    className="h-full object-contain p-4"
-                  />
+              <motion.div key={p._id} whileHover={{ y: -8 }} className="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col transition-all duration-300">
+                <div className="h-56 bg-slate-100 flex items-center justify-center p-6">
+                  <img src={p.image} className="h-full object-contain mix-blend-multiply" />
                 </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-lg truncate">{p.name}</h3>
-                  <p className="text-gray-500 text-sm mb-3">
-                    {p.description.substring(0, 60)}...
-                  </p>
-                  <p className="text-2xl font-extrabold mb-4">₹ {p.price}</p>
-
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => navigate(`/product/${p.slug}`)}
-                      className="flex-1 border rounded-xl py-2 font-medium"
-                    >
-                      Details
-                    </button>
-                    <button
-                      onClick={() => {
-                        setCart([...cart, p]);
-                        toast.success("Added to cart");
-                      }}
-                      className="flex-1 bg-black text-white rounded-xl py-2 font-medium"
-                    >
-                      Add
-                    </button>
+                <div className="p-6 flex-grow m-3">
+                  <h3 className="font-bold text-gray-900 text-lg mb-2 truncate">{p.name}</h3>
+                  <p className="text-gray-500 text-sm mb-4 line-clamp-2">{p.description}</p>
+                  <p className="text-2xl font-extrabold text-blue-800 mb-6">₹{p.price.toLocaleString()}</p>
+                  <div className="flex gap-3 mt-auto">
+                    <button onClick={() => navigate(`/product/${p.slug}`)} className="flex-1 border border-slate-200 rounded-xl py-3 font-medium hover:bg-slate-50 transition flex items-center justify-center gap-2"><Eye size={18} /> View</button>
+                    <button onClick={() => { setCart([...cart, p]); toast.success("Added to cart!"); }} className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl py-3 font-semibold shadow-md hover:shadow-lg transition flex items-center justify-center gap-2"><ShoppingCart size={18} /> Add</button>
                   </div>
                 </div>
               </motion.div>
@@ -270,11 +157,7 @@ const HomePage = () => {
 
           {products.length < total && (
             <div className="flex justify-center mt-16">
-              <button
-                style={{borderRadius:'10px'}}
-                onClick={() => setPage(page + 1)}
-                className="px-8 py-2 mt-3 rounded-full bg-black text-white font-bold"
-              >
+              <button onClick={() => setPage(page + 1)} style={{ borderRadius: '10px' }} className="px-8 py-3 bg-black text-white font-bold hover:bg-gray-800 transition">
                 {loading ? "Loading..." : "Load More"}
               </button>
             </div>
@@ -282,12 +165,7 @@ const HomePage = () => {
         </main>
       </section>
 
-      <Drawer
-        open={mobileFilterOpen}
-        onClose={() => setMobileFilterOpen(false)}
-        placement="left"
-        width={300}
-      >
+      <Drawer closeIcon={null} open={mobileFilterOpen} onClose={() => setMobileFilterOpen(false)} placement="left" width={300}>
         <FilterContent close={() => setMobileFilterOpen(false)} />
       </Drawer>
     </div>
