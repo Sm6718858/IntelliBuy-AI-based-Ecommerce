@@ -17,6 +17,7 @@ const ProductDetails = () => {
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
 
   useEffect(() => {
     const loadProductDetails = async () => {
@@ -149,7 +150,7 @@ const ProductDetails = () => {
               <div className="flex flex-col  lg:flex-row lg:items-center lg:justify-between gap-1 mb-2 mx-4">
 
                 <h2
-                  style={{ color: "red", fontWeight: "bold", marginTop: '10px' }}
+                  style={{ color: "brown", fontWeight: "bold", marginTop: '10px' }}
                   className="text-xl lg:text-2xl font-bold"
                 >
                   {product.name}
@@ -182,7 +183,29 @@ const ProductDetails = () => {
               <div className="prose max-w-none text-gray-600 mb-6 px-2.5 mx-4 mt-4">
                 <p>{product.description}</p>
               </div>
+              <div className="mx-4 mb-6">
+                <h3 className="font-semibold text-gray-700 mb-3">
+                  Select Size
+                </h3>
 
+                <div className="flex flex-wrap gap-3">
+                  {product?.sizes?.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`px-4 py-2 border rounded-lg font-medium transition-all
+          ${selectedSize === size
+                          ? "bg-indigo-600 text-white border-indigo-600"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-indigo-500"
+                        }
+        `}
+                    >
+                      {size}
+                    </button>
+                    
+                  ))}
+                </div>
+              </div>
               <div className="space-y-2 mb-6">
                 <div className="flex items-center">
 
@@ -244,7 +267,21 @@ const ProductDetails = () => {
 
                 className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
                 onClick={() => {
-                  setCart([...cart, product]);
+                  if (!selectedSize) {
+                    toast.error("Please select a size");
+                    return;
+                  }
+
+                  const cartItem = {
+                    ...product,
+                    selectedSize,
+                  };
+
+                  const updatedCart = [...cart, cartItem];
+
+                  setCart(updatedCart);
+                  localStorage.setItem("cart", JSON.stringify(updatedCart));
+
                   navigate("/cart");
                 }}
               >
@@ -279,7 +316,7 @@ const ProductDetails = () => {
               overflow: "hidden",
             }}
           >
-            <h3 style={{color:'#FE0000', fontWeight:'bold'}} className="text-xl lg:text-2xl font-bold mb-6 flex items-center mx-4 mt-3">
+            <h3 style={{ color: 'brown', fontWeight: 'bold' }} className="text-xl lg:text-2xl font-bold mb-6 flex items-center mx-4 mt-3">
               Write a Review
             </h3>
 
@@ -340,7 +377,7 @@ const ProductDetails = () => {
             className="bg-gray-50 mt-3 rounded-xl shadow-lg p-6"
             style={{ height: "350px" }}
           >
-            <h3 style={{color:'#FE0000', fontWeight:'bold'}} className="text-xl lg:text-2xl font-bold mb-6 flex items-center px-3 mt-3">
+            <h3 style={{ color: 'brown', fontWeight: 'bold' }} className="text-xl lg:text-2xl font-bold mb-6 flex items-center px-3 mt-3">
               Customer Reviews
             </h3>
 
@@ -406,7 +443,7 @@ const ProductDetails = () => {
         </section>
 
         <section className="mb-16 mt-4">
-          <h3 style={{color:'#FE0000', fontWeight:'bold'}} className="text-xl lg:text-2xl font-bold text-gray-800 mb-6 flex items-center">
+          <h3 style={{ color: 'brown', fontWeight: 'bold' }} className="text-xl lg:text-2xl font-bold text-gray-800 mb-6 flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 text-purple-500 mr-2"

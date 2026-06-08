@@ -6,7 +6,7 @@ import redisClient from "../config/redis.js";
 
 export const createProduct = async (req, res) => {
   try {
-    const {name,description,price,quantity,category,shipping,image} = req.body;
+    const {name,description,price,quantity,category,shipping,image,sizes} = req.body;
 
     if (!name || !description || !price || !quantity || !category || !image){
       return res.status(400).json({
@@ -23,6 +23,7 @@ export const createProduct = async (req, res) => {
       category,
       shipping: Boolean(shipping),
       image,
+      sizes
     });
 
     await product.save();
@@ -160,7 +161,8 @@ export const updateProduct = async (req, res) => {
       category,
       quantity,
       shipping,
-      image, 
+      image,
+      sizes
     } = req.body;
 
     if (!name || !description || !price || !category || !quantity) {
@@ -185,6 +187,7 @@ export const updateProduct = async (req, res) => {
     product.category = category;
     product.quantity = quantity;
     product.shipping = shipping;
+    product.sizes = sizes;
 
     if (image) {
       product.image = image;

@@ -22,6 +22,12 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     quantity: { type: Number, required: true },
+    sizes:[
+      {
+        type: String,
+        enum: ["S", "M", "L", "XL", "XXL"],
+      }
+    ],
     image: { type: String, required: true },
     shipping: { type: Boolean, default: false },
     reviews: [reviewSchema],

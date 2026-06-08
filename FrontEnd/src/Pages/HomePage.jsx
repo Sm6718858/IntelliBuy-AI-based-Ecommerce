@@ -143,7 +143,7 @@ const HomePage = () => {
                   <img src={p.image} className="h-full object-contain mix-blend-multiply" />
                 </div>
                 <div className="p-6 flex-grow m-3">
-                  <h3 className="font-bold text-gray-900 text-lg mb-2 truncate">{p.name}</h3>
+                  <h3 style={{color:'brown'}} className="font-bold text-lg mb-2 truncate">{p.name}</h3>
                   <p className="text-gray-500 text-sm mb-4 line-clamp-2">{p.description}</p>
                   <p className="text-2xl font-extrabold text-blue-800 mb-6">₹{p.price.toLocaleString()}</p>
                   <div className="flex gap-3 mt-auto">

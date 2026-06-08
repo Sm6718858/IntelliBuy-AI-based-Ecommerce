@@ -156,6 +156,7 @@ const CartPage = () => {
                     />
                   </div>
 
+
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-start gap-4 mb-1">
@@ -166,9 +167,17 @@ const CartPage = () => {
                           ₹{item.price * (item.quantity || 1)}
                         </p>
                       </div>
-                      <p className="text-slate-500 text-sm line-clamp-2 mb-4">
+                      <p className="text-slate-500 text-sm line-clamp-2">
                         {item.description}
                       </p>
+
+                      {item.selectedSize && (
+                        <div className="mt-3">
+                          <span className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold border border-indigo-200">
+                            Size: {item.selectedSize}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex items-center justify-between pt-3 border-t border-slate-50">
@@ -275,8 +284,8 @@ const CartPage = () => {
                   disabled={loading || !cart.length || !auth?.user?.address}
                   onClick={handlePayment}
                   className={`w-full py-4 rounded-2xl font-bold text-white tracking-wide shadow-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.99] ${loading || !cart.length || !auth?.user?.address
-                      ? "bg-slate-200 text-slate-400 shadow-none cursor-not-allowed"
-                      : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/10 hover:shadow-xl hover:shadow-indigo-600/20"
+                    ? "bg-slate-200 text-slate-400 shadow-none cursor-not-allowed"
+                    : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/10 hover:shadow-xl hover:shadow-indigo-600/20"
                     }`}
                 >
                   <CreditCard className="w-5 h-5" />
